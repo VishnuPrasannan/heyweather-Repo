@@ -95,8 +95,6 @@ class LandingPage extends StatelessWidget {
                               color: Colors.white, fontSize: 20),
                         ),
 
-
-
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
