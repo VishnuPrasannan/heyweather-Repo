@@ -6,7 +6,7 @@ class SampleAddInfo extends StatelessWidget {
     super.key,
     required this.theIcon,
     required this.theIconColor,
-    required this.theValue,
+     this.theValue,
     required this.theText,
   });
 
@@ -31,7 +31,7 @@ class SampleAddInfo extends StatelessWidget {
         VerticalSizedBox(5),
         Text(
           theText,
-          style: const TextStyle(color: Colors.white54, fontSize: 15),
+          style: const TextStyle(color: Colors.white, fontSize: 15),
         )
       ],
     );
