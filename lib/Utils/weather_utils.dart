@@ -5,11 +5,11 @@ import 'package:hey_weather/Widgets/api_key.dart';
 class WeatherUtil{
   Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
-<<<<<<<<< Temporary merge branch 1
+
       String cityName = 'Kochi';
-=========
-      String cityName = 'Aluva';
->>>>>>>>> Temporary merge branch 2
+
+
+
       final res = await http.get(Uri.parse(
           'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey'));
       final data = jsonDecode(res.body);
