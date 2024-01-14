@@ -6,7 +6,7 @@ class WeatherUtil{
   Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
 
-      String cityName = 'Kannur';
+      String cityName = 'Pathanamthitta';
 
 
 

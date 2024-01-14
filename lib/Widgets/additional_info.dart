@@ -29,12 +29,11 @@ class Addinfo extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
          ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(10.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icons,size:iconSize,),
-            const VerticalSizedBox(7),
+            Icon(icons,size:iconSize,color: Colors.white,),
+            const VerticalSizedBox(8),
             Text(
               text,
               style:  TextStyle(color: primarycolor,fontSize: textSize),

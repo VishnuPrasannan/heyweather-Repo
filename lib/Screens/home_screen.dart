@@ -33,6 +33,7 @@ class _HomepageState extends State<Homepage> {
               return Center(child: Text(snapshot.error.toString()));
             }
             final data = snapshot.data!;
+            final cityName = data['city']['name'];
             final weatherDataList = data['list'][0];
 
             final currentWeather = weatherDataList['main']['temp'];
@@ -61,20 +62,38 @@ class _HomepageState extends State<Homepage> {
 
             return CustomScrollView(
               slivers: [
-                const SliverAppBar(
+                SliverAppBar(
+                    centerTitle: true,
                     backgroundColor: Colors.black54,
-                    expandedHeight: 200,
+                    expandedHeight: 150,
                     floating: false,
                     pinned: true,
                     automaticallyImplyLeading: false,
                     flexibleSpace: FlexibleSpaceBar(
-                      title: Text('Kochi'),
-                    )),
+                        title: Row(
+                      children: [
+                        const Icon(
+                          Icons.cloud,
+                          color: Colors.white,
+                        ),
+                        const HorizontalSizedBox(20),
+                        Text(
+                          '$cityName',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 20, child: VerticalDivider()),
+                        Text('$celsiusTempStr °')
+                      ],
+                    ))),
+
                 SliverList(
                     delegate: SliverChildListDelegate([
                   Container(
-                    height: double.maxFinite,
-                    decoration: const BoxDecoration(color: Colors.yellow
+                    height: 1500,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/Lp_bg.jpg'),
+                            fit: BoxFit.cover)
                         // image: DecorationImage(
                         //     image: AssetImage(
                         //
@@ -125,37 +144,67 @@ class _HomepageState extends State<Homepage> {
                         //         ),
                         //     fit: BoxFit.cover)
                         ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        VerticalSizedBox(20),
-                        FrostedContainers(
+                        const VerticalSizedBox(20),
+                        const FrostedContainers(
                           theWidth: 400.0,
                           theHeight: 100.0,
                         ),
-                        VerticalSizedBox(20),
-                        FrostedContainers(
+                        const VerticalSizedBox(20),
+                        const FrostedContainers(
                           theHeight: 400.0,
                           theWidth: 400.0,
                         ),
-                        VerticalSizedBox(20),
-                        FrostedContainers(
-                          theWidth: 375.0,
+                        const VerticalSizedBox(20),
+                        const FrostedContainers(
+                          theWidth: 390.0,
                           theHeight: 50.0,
                         ),
-                        VerticalSizedBox(20),
-
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                        const VerticalSizedBox(20),
+                        Row(
                           children: [
+                            const HorizontalSizedBox(30),
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                children: [
+                                  FrostedContainers(
+                                    theWidth: 200.0,
+                                    theHeight: 150.0,
+                                    theChild: Addinfo(
+                                        icons: Icons.water_drop_outlined,
+                                        text: '$currentHumidity %',
+                                        maintext: 'Humidity',
+                                        iconSize: 25,
+                                        textSize: 20,
+                                        mainTextSize: 20),
+                                  ),
+                                  FrostedContainers(
+                                    theWidth: 200.0,
+                                    theHeight: 150.0,
+                                    theChild: Addinfo(
+                                        icons: FontAwesomeIcons.wind,
+                                        text: '$windSpeed mi',
+                                        maintext: 'Wind Speed',
+                                        iconSize: 25,
+                                        textSize: 20,
+                                        mainTextSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const HorizontalSizedBox(10),
                             Column(
                               children: [
                                 FrostedContainers(
                                   theWidth: 200.0,
                                   theHeight: 150.0,
                                   theChild: Addinfo(
-                                      icons: Icons.ice_skating,
-                                      text: 'u',
-                                      maintext: '100',
-                                      iconSize: 20,
+                                      icons: Icons.remove_red_eye_outlined,
+                                      text: '$visibilityStr km/h',
+                                      maintext: 'Visibility',
+                                      iconSize: 25,
                                       textSize: 20,
                                       mainTextSize: 20),
                                 ),
@@ -163,65 +212,31 @@ class _HomepageState extends State<Homepage> {
                                   theWidth: 200.0,
                                   theHeight: 150.0,
                                   theChild: Addinfo(
-                                      icons: Icons.ice_skating,
-                                      text: 'u',
-                                      maintext: '100',
-                                      iconSize: 20,
-                                      textSize: 20,
-                                      mainTextSize: 20),
-                                ),
-                                FrostedContainers(
-                                  theWidth: 200.0,
-                                  theHeight: 150.0,
-                                  theChild: Addinfo(
-                                      icons: Icons.ice_skating,
-                                      text: 'u',
-                                      maintext: '100',
-                                      iconSize: 20,
+                                      icons: Icons.compress,
+                                      text: '$currentPressure hpa',
+                                      maintext: 'Air Pressure',
+                                      iconSize: 25,
                                       textSize: 20,
                                       mainTextSize: 20),
                                 ),
                               ],
-                            ),
-
-                         Column(
-                           children: [
-                             FrostedContainers(
-                               theWidth: 200.0,
-                               theHeight: 150.0,
-                               theChild: Addinfo(
-                                   icons: Icons.ice_skating,
-                                   text: 'u',
-                                   maintext: '100',
-                                   iconSize: 20,
-                                   textSize: 20,
-                                   mainTextSize: 20),
-                             ),
-                             FrostedContainers(
-                               theWidth: 200.0,
-                               theHeight: 150.0,
-                               theChild: Addinfo(
-                                   icons: Icons.ice_skating,
-                                   text: 'u',
-                                   maintext: '100',
-                                   iconSize: 20,
-                                   textSize: 20,
-                                   mainTextSize: 20),
-                             ),
-                             FrostedContainers(
-                               theWidth: 200.0,
-                               theHeight: 150.0,
-                               theChild: Addinfo(
-                                   icons: Icons.ice_skating,
-                                   text: 'u',
-                                   maintext: '100',
-                                   iconSize: 20,
-                                   textSize: 20,
-                                   mainTextSize: 20),
-                             ),
-                           ],
-                         ) ],
-                        )
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 120),
+                          child: FrostedContainers(
+                            theWidth: 300.0,
+                            theHeight: 180.0,
+                            theChild: Addinfo(
+                                icons: FontAwesomeIcons.temperatureHalf,
+                                text: '$feelsLikeTempStr °',
+                                maintext: 'Feels Like',
+                                iconSize: 25,
+                                textSize: 20,
+                                mainTextSize: 20),
+                          ),
+                        ),
                       ],
                     ),
                   )

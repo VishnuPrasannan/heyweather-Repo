@@ -137,6 +137,7 @@ class LandingPage extends StatelessWidget {
                                 )
                               ],
                             ),
+
                             const HorizontalSizedBox(70),
                             Column(
                               children: [
