@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hey_weather/Widgets/decorations.dart';
 import '../Widgets/frosted_containers.dart';
 import 'home_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hey_weather/Widgets/sized_boxes.dart';
 import '../Utils/weather_utils.dart';
-
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -30,12 +30,21 @@ class LandingPage extends StatelessWidget {
             final cityName = data['city']['name'];
             final weatherDataList = data['list'][0];
 
+            final minTemp = weatherDataList['main']['temp_min'];
+            final celsiusMin = minTemp - 273.15;
+            final celsiusMinStr = celsiusMin.toStringAsFixed(0);
+
+            final maxTemp = weatherDataList['main']['temp_max'];
+            final celsiusMax = maxTemp - 273.15;
+            final celsiusMaxStr = celsiusMax.toStringAsFixed(0);
+
             final currentWeather = weatherDataList['main']['temp'];
             final celsiusTemp = currentWeather - 273.15;
             final celsiusTempStr = celsiusTemp.toStringAsFixed(0);
 
             final currentSky = weatherDataList['weather'][0]['main'];
-            final currentSkyDescription = weatherDataList['weather'][0]['description'];
+            final currentSkyDescription =
+                weatherDataList['weather'][0]['description'];
 
             final currentHumidity = weatherDataList['main']['humidity'];
 
@@ -60,84 +69,117 @@ class LandingPage extends StatelessWidget {
                         image: AssetImage('assets/images/Lp_bg.jpg'),
                         fit: BoxFit.cover)),
               ),
-              Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Center(
-                  child: InkWell(onTap: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                            const Homepage()));
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Homepage()));
                   },
-                    child: FrostedContainers(
-                      theHeight: 500.0,
-                      theWidth: 400.0,
-                      theChild: Center(
-                        child: Column(
-                          children: [
-
-                            Icon(
-                              currentSky == 'Clouds'
-                                  ? Icons.cloud
-                                  : currentSky == 'Rain'
+                  child: FrostedContainers(
+                    theHeight: 550.0,
+                    theWidth: 350.0,
+                    theChild: Column(
+                      children: [
+                        const VerticalSizedBox(20),
+                        Icon(
+                          currentSky == 'Clouds'
+                              ? Icons.cloud
+                              : currentSky == 'Rain'
                                   ? FontAwesomeIcons.cloudShowersHeavy
-                                  : FontAwesomeIcons.sun,
-                              color: primarycolor,
-                              size: 120,
+                                  : Icons.sunny,
+                          color: primarycolor,
+                          size: 100,
+                        ),
+                        const VerticalSizedBox(20),
+                        Decorations(
+                            apiText: cityName,
+                            apiTextFontSize: 30.0,
+                            icon: FontAwesomeIcons.cloudSunRain,
+                            iconSize: 30.0),
+                        Row(
+                          children: [
+                            const HorizontalSizedBox(20),
+                            const Icon(
+                              FontAwesomeIcons.cloud,
+                              color: Colors.white54,
+                              size: 40,
                             ),
-                            const VerticalSizedBox(20),
-                            Text(cityName,style: TextStyle(color: Colors.white),),
-
+                            const HorizontalSizedBox(60),
                             Text(
                               '$celsiusTempStr°',
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 90),
                             ),
-
-                            Text(
-                              currentSkyDescription,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 30),
-                            ),
-
-                            Row(mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                   Image.asset('assets/images/low temperature.png',height: 50,width: 70,),
-                                    Text('Low:')
-                                  ],
-                                ),
-                             Text('HigH:') ],
-                            ),
-
-
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                const Homepage()));
-                                      },
-                                      child: const Text(
-                                        'For More',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      )),
-                                  const Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ]),
                           ],
                         ),
-                      ),
+
+                        //Frosted Container DECORATIONS
+                        Decorations(
+                            apiText: currentSkyDescription,
+                            apiTextFontSize: 25.0,
+                            icon: FontAwesomeIcons.cloudRain,
+                            iconSize: 40.0),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/low temperature.png',
+                                  height: 50,
+                                  width: 70,
+                                ),
+                                Text(
+                                  'L: $celsiusMinStr°',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                )
+                              ],
+                            ),
+                            const HorizontalSizedBox(70),
+                            Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/hot temperature.png',
+                                  height: 50,
+                                  width: 70,
+                                ),
+                                Text(
+                                  'H: $celsiusMaxStr°',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        const VerticalSizedBox(20),
+
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const Homepage()));
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Your Daily Forecast',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                                Icon(
+                                  Icons.arrow_right_outlined,
+                                  color: Colors.white,
+                                )
+                              ],
+                            )),
+
+                        const SizedBox(
+                            width: 300,
+                            child: Divider(height: 10, color: Colors.white54)),
+                      ],
                     ),
                   ),
                 ),

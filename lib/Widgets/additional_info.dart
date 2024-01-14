@@ -26,15 +26,8 @@ class Addinfo extends StatelessWidget {
       height: 120,
       width: 180,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blueAccent,
-              Colors.grey,
-            ],
-          )),
+          borderRadius: BorderRadius.circular(10),
+         ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

@@ -8,7 +8,6 @@ class FrostedContainers extends StatelessWidget {
   final theWidth;
   final theHeight;
   final theChild;
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -24,7 +23,8 @@ class FrostedContainers extends StatelessWidget {
                 child: Container(),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration:
+                BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(color: Colors.white.withOpacity(0.13)),
                     gradient: LinearGradient(

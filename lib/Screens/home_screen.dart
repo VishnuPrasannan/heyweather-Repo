@@ -19,7 +19,6 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
       body: FutureBuilder(
           future: WeatherUtil().getCurrentWeather(),
           builder: (context, snapshot) {
@@ -41,7 +40,8 @@ class _HomepageState extends State<Homepage> {
             final celsiusTempStr = celsiusTemp.toStringAsFixed(0);
 
             final currentSky = weatherDataList['weather'][0]['main'];
-            final currentSkyDescription = weatherDataList['weather'][0]['description'];
+            final currentSkyDescription =
+                weatherDataList['weather'][0]['description'];
 
             final currentHumidity = weatherDataList['main']['humidity'];
 
@@ -59,68 +59,175 @@ class _HomepageState extends State<Homepage> {
             final feelsLikeTEMP = feelsLike - 273.15;
             final feelsLikeTempStr = feelsLikeTEMP.toStringAsFixed(0);
 
-            return Stack(children: [
-              Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
+            return CustomScrollView(
+              slivers: [
+                const SliverAppBar(
+                    backgroundColor: Colors.black54,
+                    expandedHeight: 200,
+                    floating: false,
+                    pinned: true,
+                    automaticallyImplyLeading: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: Text('Kochi'),
+                    )),
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  Container(
+                    height: double.maxFinite,
+                    decoration: const BoxDecoration(color: Colors.yellow
+                        // image: DecorationImage(
+                        //     image: AssetImage(
+                        //
+                        //         //Broken Clouds
+                        //         currentDayNightMode == 'n' &&
+                        //                 currentSkyDescription == 'broken clouds'
+                        //             ? 'assets/images/pure black background.jpg'
+                        //             : currentDayNightMode == 'd' &&
+                        //                     currentSkyDescription ==
+                        //                         'broken clouds'
+                        //                 ? 'assets/images/scattered day clouds.jpg'
+                        //                 :
+                        //
+                        //                 //Scattered Clouds
+                        //                 currentDayNightMode == 'd' &&
+                        //                         currentSkyDescription ==
+                        //                             'scattered clouds'
+                        //                     ? 'assets/images/scattered daysky.jpg'
+                        //                     : currentDayNightMode == 'n' &&
+                        //                             currentSkyDescription ==
+                        //                                 'scattered clouds'
+                        //                         ? 'assets/images/scattered nightsky.jpg'
+                        //                         :
+                        //
+                        //                         //Overcast clouds
+                        //
+                        //                         currentDayNightMode == 'd' &&
+                        //                                 currentSkyDescription ==
+                        //                                     'overcast clouds'
+                        //                             ? 'assets/images/overcast day 2.jpg'
+                        //                             : currentDayNightMode ==
+                        //                                         'n' &&
+                        //                                     currentSkyDescription ==
+                        //                                         'overcast clouds'
+                        //                                 ? 'assets/images/night overcast clouds.jpg'
+                        //                                 : 'assets/images/satellital view.jpg'
+                        //
+                        //         // Fewer Clouds
+                        //
+                        //         //clear sky
+                        //
+                        //         // Snow
+                        //
+                        //         //Rain
+                        //
+                        //         // light rain
+                        //
+                        //         ),
+                        //     fit: BoxFit.cover)
+                        ),
+                    child: const Column(
+                      children: [
+                        VerticalSizedBox(20),
+                        FrostedContainers(
+                          theWidth: 400.0,
+                          theHeight: 100.0,
+                        ),
+                        VerticalSizedBox(20),
+                        FrostedContainers(
+                          theHeight: 400.0,
+                          theWidth: 400.0,
+                        ),
+                        VerticalSizedBox(20),
+                        FrostedContainers(
+                          theWidth: 375.0,
+                          theHeight: 50.0,
+                        ),
+                        VerticalSizedBox(20),
 
-                            //Broken Clouds
-                            currentDayNightMode == 'n' &&
-                                    currentSkyDescription == 'broken clouds'
-                                ? 'assets/images/pure black background.jpg'
-                                : currentDayNightMode == 'd' &&
-                                        currentSkyDescription == 'broken clouds'
-                                    ? 'assets/images/scattered day clouds.jpg'
-                                    :
-
-                                    //Scattered Clouds
-                                    currentDayNightMode == 'd' &&
-                                            currentSkyDescription ==
-                                                'scattered clouds'
-                                        ? 'assets/images/scattered daysky.jpg'
-                                        : currentDayNightMode == 'n' &&
-                                                currentSkyDescription ==
-                                                    'scattered clouds'
-                                            ? 'assets/images/scattered nightsky.jpg'
-                                            :
-
-                                            //Overcast clouds
-
-                                            currentDayNightMode == 'd' &&
-                                                    currentSkyDescription ==
-                                                        'overcast clouds'
-                                                ? 'assets/images/overcast day 2.jpg'
-                                                : currentDayNightMode == 'n' &&
-                                                        currentSkyDescription ==
-                                                            'overcast clouds'
-                                                    ? 'assets/images/night overcast clouds.jpg'
-                                                    : 'assets/images/satellital view.jpg'
-
-                            // Fewer Clouds
-
-                            //clear sky
-
-                            // Snow
-
-                            //Rain
-
-                            // light rain
-
+                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                FrostedContainers(
+                                  theWidth: 200.0,
+                                  theHeight: 150.0,
+                                  theChild: Addinfo(
+                                      icons: Icons.ice_skating,
+                                      text: 'u',
+                                      maintext: '100',
+                                      iconSize: 20,
+                                      textSize: 20,
+                                      mainTextSize: 20),
+                                ),
+                                FrostedContainers(
+                                  theWidth: 200.0,
+                                  theHeight: 150.0,
+                                  theChild: Addinfo(
+                                      icons: Icons.ice_skating,
+                                      text: 'u',
+                                      maintext: '100',
+                                      iconSize: 20,
+                                      textSize: 20,
+                                      mainTextSize: 20),
+                                ),
+                                FrostedContainers(
+                                  theWidth: 200.0,
+                                  theHeight: 150.0,
+                                  theChild: Addinfo(
+                                      icons: Icons.ice_skating,
+                                      text: 'u',
+                                      maintext: '100',
+                                      iconSize: 20,
+                                      textSize: 20,
+                                      mainTextSize: 20),
+                                ),
+                              ],
                             ),
-                        fit: BoxFit.cover)),
-              ),
 
-              Icon(
-                currentSky == 'Clouds' || currentSky == 'Rain'
-                    ? Icons.cloud
-                    : Icons.sunny,
-                color: primarycolor,
-                size: 40,
-              ),
-
-
-            ]);
+                         Column(
+                           children: [
+                             FrostedContainers(
+                               theWidth: 200.0,
+                               theHeight: 150.0,
+                               theChild: Addinfo(
+                                   icons: Icons.ice_skating,
+                                   text: 'u',
+                                   maintext: '100',
+                                   iconSize: 20,
+                                   textSize: 20,
+                                   mainTextSize: 20),
+                             ),
+                             FrostedContainers(
+                               theWidth: 200.0,
+                               theHeight: 150.0,
+                               theChild: Addinfo(
+                                   icons: Icons.ice_skating,
+                                   text: 'u',
+                                   maintext: '100',
+                                   iconSize: 20,
+                                   textSize: 20,
+                                   mainTextSize: 20),
+                             ),
+                             FrostedContainers(
+                               theWidth: 200.0,
+                               theHeight: 150.0,
+                               theChild: Addinfo(
+                                   icons: Icons.ice_skating,
+                                   text: 'u',
+                                   maintext: '100',
+                                   iconSize: 20,
+                                   textSize: 20,
+                                   mainTextSize: 20),
+                             ),
+                           ],
+                         ) ],
+                        )
+                      ],
+                    ),
+                  )
+                ]))
+              ],
+            );
           }),
     );
   }
