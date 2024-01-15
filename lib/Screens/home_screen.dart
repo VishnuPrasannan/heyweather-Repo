@@ -17,6 +17,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: FutureBuilder(
             future: WeatherUtil().getCurrentWeather(),
@@ -55,18 +57,16 @@ class _HomepageState extends State<Homepage> {
               final visibilityStr = visibility.toStringAsFixed(0);
 
               final currentDayNightMode = weatherDataList['sys']['pod'];
-              final feelsLike = weatherDataList['main']['feels_like'];
-              final feelsLikeTEMP = feelsLike - 273.15;
-              final feelsLikeTempStr = feelsLikeTEMP.toStringAsFixed(0);
+
 
               return Stack(children: [
                 Container(
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/images/broken night clouds.jpg'),
+                          image: AssetImage(
+                              'assets/images/broken night clouds.jpg'),
                           fit: BoxFit.cover)),
                 ),
-
                 CustomScrollView(
                   slivers: [
                     SliverAppBar(
@@ -75,50 +75,54 @@ class _HomepageState extends State<Homepage> {
                       floating: true,
                       expandedHeight: 200,
                       flexibleSpace: FlexibleSpaceBar(
-                        title:SizedBox(
-                          height: 100,
-                          width: double.infinity,
-                          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                           Text('$cityName') ,
-                            Text('$celsiusTempStr °',style: TextStyle(color: Colors.white),)],
-                          ),
-                        )
-                      ),
-                   backgroundColor: Colors.transparent, ),
-                   
+                          title: SizedBox(
+                        height: screenHeight * 0.1,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Text('$cityName'),
+                            const HorizontalSizedBox(50),
+                            InkWell(
+                                onTap: () {},
+                                child: const Icon(
+                                  Icons.location_city,
+                                  color: Colors.white,
+                                ))
+                          ],
+                        ),
+                      )),
+                      backgroundColor: Colors.transparent,
+                    ),
                     SliverList(
                         delegate: SliverChildListDelegate([
                       Column(
                         children: [
                           const VerticalSizedBox(20),
-                          const FrostedContainers(
-                            theWidth: 400.0,
-                            theHeight: 100.0,
+                          FrostedContainers(
+                            theWidth: screenWidth * 0.9,
+                            theHeight: screenHeight * 0.1,
                           ),
                           const VerticalSizedBox(20),
-                          const FrostedContainers(
-                            theHeight: 400.0,
-                            theWidth: 400.0,
+                          FrostedContainers(
+                            theHeight: screenHeight * 0.6,
+                            theWidth: screenWidth * 0.9,
                           ),
                           const VerticalSizedBox(20),
-                          const FrostedContainers(
-                            theWidth: 390.0,
-                            theHeight: 50.0,
+                          FrostedContainers(
+                            theWidth: screenWidth * 0.9,
+                            theHeight: screenHeight * 0.1,
                           ),
                           const VerticalSizedBox(20),
-
-
                           Row(
                             children: [
-                              const HorizontalSizedBox(30),
+                              const HorizontalSizedBox(20),
                               Expanded(
-                                flex: 3,
+                                flex: 2,
                                 child: Column(
                                   children: [
                                     FrostedContainers(
-                                      theWidth: 200.0,
-                                      theHeight: 150.0,
+                                      theWidth: screenWidth * 0.5,
+                                      theHeight: screenHeight * 0.2,
                                       theChild: Addinfo(
                                           icons: Icons.water_drop_outlined,
                                           text: '$currentHumidity %',
@@ -127,10 +131,9 @@ class _HomepageState extends State<Homepage> {
                                           textSize: 20,
                                           mainTextSize: 20),
                                     ),
-
                                     FrostedContainers(
-                                      theWidth: 200.0,
-                                      theHeight: 150.0,
+                                      theWidth: screenWidth * 0.5,
+                                      theHeight: screenHeight * 0.2,
                                       theChild: Addinfo(
                                           icons: FontAwesomeIcons.wind,
                                           text: '$windSpeed mi',
@@ -145,146 +148,43 @@ class _HomepageState extends State<Homepage> {
                               const HorizontalSizedBox(10),
                               Column(
                                 children: [
-                                  FrostedContainers(
-                                    theWidth: 200.0,
-                                    theHeight: 150.0,
-                                    theChild: Addinfo(
-                                        icons: Icons.remove_red_eye_outlined,
-                                        text: '$visibilityStr km/h',
-                                        maintext: 'Visibility',
-                                        iconSize: 25,
-                                        textSize: 20,
-                                        mainTextSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: FrostedContainers(
+                                      theWidth: screenWidth * 0.5,
+                                      theHeight: screenHeight * 0.2,
+                                      theChild: Addinfo(
+                                          icons: Icons.remove_red_eye_outlined,
+                                          text: '$visibilityStr km/h',
+                                          maintext: 'Visibility',
+                                          iconSize: 25,
+                                          textSize: 20,
+                                          mainTextSize: 20),
+                                    ),
                                   ),
-                                  FrostedContainers(
-                                    theWidth: 200.0,
-                                    theHeight: 150.0,
-                                    theChild: Addinfo(
-                                        icons: Icons.compress,
-                                        text: '$currentPressure hpa',
-                                        maintext: 'Air Pressure',
-                                        iconSize: 25,
-                                        textSize: 20,
-                                        mainTextSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: FrostedContainers(
+                                      theWidth: screenWidth * 0.5,
+                                      theHeight: screenHeight * 0.2,
+                                      theChild: Addinfo(
+                                          icons: Icons.compress,
+                                          text: '$currentPressure hpa',
+                                          maintext: 'Air Pressure',
+                                          iconSize: 25,
+                                          textSize: 20,
+                                          mainTextSize: 20),
+                                    ),
                                   ),
                                 ],
                               )
                             ],
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 120),
-                            child: FrostedContainers(
-                              theWidth: 300.0,
-                              theHeight: 180.0,
-                              theChild: Addinfo(
-                                  icons: FontAwesomeIcons.temperatureHalf,
-                                  text: '$feelsLikeTempStr °',
-                                  maintext: 'Feels Like',
-                                  iconSize: 25,
-                                  textSize: 20,
-                                  mainTextSize: 20),
-                            ),
-                          ),
-                        ],
+
+                         ],
                       ),
                     ]))
                   ],
-                  //  Column(
-                  //   children: [
-                  //     const VerticalSizedBox(20),
-                  //     const FrostedContainers(
-                  //       theWidth: 400.0,
-                  //       theHeight: 100.0,
-                  //     ),
-                  //     const VerticalSizedBox(20),
-                  //     const FrostedContainers(
-                  //       theHeight: 400.0,
-                  //       theWidth: 400.0,
-                  //     ),
-                  //     const VerticalSizedBox(20),
-                  //     const FrostedContainers(
-                  //       theWidth: 390.0,
-                  //       theHeight: 50.0,
-                  //     ),
-                  //     const VerticalSizedBox(20),
-                  //     Row(
-                  //       children: [
-                  //         const HorizontalSizedBox(30),
-                  //         Expanded(
-                  //           flex: 3,
-                  //           child: Column(
-                  //             children: [
-                  //               FrostedContainers(
-                  //                 theWidth: 200.0,
-                  //                 theHeight: 150.0,
-                  //                 theChild: Addinfo(
-                  //                     icons: Icons.water_drop_outlined,
-                  //                     text: '$currentHumidity %',
-                  //                     maintext: 'Humidity',
-                  //                     iconSize: 25,
-                  //                     textSize: 20,
-                  //                     mainTextSize: 20),
-                  //               ),
-                  //               FrostedContainers(
-                  //                 theWidth: 200.0,
-                  //                 theHeight: 150.0,
-                  //                 theChild: Addinfo(
-                  //                     icons: FontAwesomeIcons.wind,
-                  //                     text: '$windSpeed mi',
-                  //                     maintext: 'Wind Speed',
-                  //                     iconSize: 25,
-                  //                     textSize: 20,
-                  //                     mainTextSize: 20),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         const HorizontalSizedBox(10),
-                  //         Column(
-                  //           children: [
-                  //             FrostedContainers(
-                  //               theWidth: 200.0,
-                  //               theHeight: 150.0,
-                  //               theChild: Addinfo(
-                  //                   icons: Icons.remove_red_eye_outlined,
-                  //                   text: '$visibilityStr km/h',
-                  //                   maintext: 'Visibility',
-                  //                   iconSize: 25,
-                  //                   textSize: 20,
-                  //                   mainTextSize: 20),
-                  //             ),
-                  //             FrostedContainers(
-                  //               theWidth: 200.0,
-                  //               theHeight: 150.0,
-                  //               theChild: Addinfo(
-                  //                   icons: Icons.compress,
-                  //                   text: '$currentPressure hpa',
-                  //                   maintext: 'Air Pressure',
-                  //                   iconSize: 25,
-                  //                   textSize: 20,
-                  //                   mainTextSize: 20),
-                  //             ),
-                  //           ],
-                  //         )
-                  //       ],
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.symmetric(horizontal: 120),
-                  //       child: FrostedContainers(
-                  //         theWidth: 300.0,
-                  //         theHeight: 180.0,
-                  //         theChild: Addinfo(
-                  //             icons: FontAwesomeIcons.temperatureHalf,
-                  //             text: '$feelsLikeTempStr °',
-                  //             maintext: 'Feels Like',
-                  //             iconSize: 25,
-                  //             textSize: 20,
-                  //             mainTextSize: 20),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ),
               ]);
             }));

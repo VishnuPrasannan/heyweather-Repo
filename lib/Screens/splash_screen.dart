@@ -24,10 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('assets/images/splash.jpg', width: 150),
+        Image.asset('assets/images/splash.jpg', width: screenWidth * 0.3),
         const VerticalSizedBox(10),
         const Padding(
           padding: EdgeInsets.all(8.0),

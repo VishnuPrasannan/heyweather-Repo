@@ -11,6 +11,8 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screeHeight = MediaQuery.of(context).size.height;
+    double screeWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: FutureBuilder(
           future: WeatherUtil().getCurrentWeather(),
@@ -76,8 +78,8 @@ class LandingPage extends StatelessWidget {
                         builder: (context) => const Homepage()));
                   },
                   child: FrostedContainers(
-                    theHeight: 550.0,
-                    theWidth: 350.0,
+                    theHeight: screeHeight * 0.8,
+                    theWidth: screeWidth * 0.9,
                     theChild: Column(
                       children: [
                         const VerticalSizedBox(20),
@@ -88,21 +90,21 @@ class LandingPage extends StatelessWidget {
                                   ? FontAwesomeIcons.cloudShowersHeavy
                                   : Icons.sunny,
                           color: primarycolor,
-                          size: 100,
+                          size: screeWidth * 0.3,
                         ),
                         const VerticalSizedBox(20),
                         Decorations(
                             apiText: cityName,
                             apiTextFontSize: 30.0,
                             icon: FontAwesomeIcons.cloudSunRain,
-                            iconSize: 30.0),
+                            iconSize: screeWidth * 0.1),
                         Row(
                           children: [
                             const HorizontalSizedBox(20),
-                            const Icon(
+                            Icon(
                               FontAwesomeIcons.cloud,
                               color: Colors.white54,
-                              size: 40,
+                              size: screeWidth * 0.1,
                             ),
                             const HorizontalSizedBox(60),
                             Text(
@@ -118,7 +120,7 @@ class LandingPage extends StatelessWidget {
                             apiText: currentSkyDescription,
                             apiTextFontSize: 25.0,
                             icon: FontAwesomeIcons.cloudRain,
-                            iconSize: 40.0),
+                            iconSize: screeWidth * 0.1),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +139,6 @@ class LandingPage extends StatelessWidget {
                                 )
                               ],
                             ),
-
                             const HorizontalSizedBox(70),
                             Column(
                               children: [
@@ -155,7 +156,61 @@ class LandingPage extends StatelessWidget {
                             )
                           ],
                         ),
-                        const VerticalSizedBox(20),
+                        const VerticalSizedBox(40),
+
+                        Column(
+                          children: [
+                            Container(
+                              height: 30,
+                              width: screeWidth * 0.7,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: const LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [Colors.orange,
+                                        Colors.black,
+                                        Colors.blue])),
+                              child: Icon(
+                                currentDayNightMode=='d'?
+                                Icons.sunny:
+                                FontAwesomeIcons.solidMoon,
+                                color: Colors.yellow,
+                              ),
+                            ),
+                            const VerticalSizedBox(20),
+
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      '6:00',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    Text(
+                                      'Sun Rise',
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('6:00',
+                                        style: TextStyle(color: Colors.white)),
+                                    Text(
+                                      'Sun Set',
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+
+                        const VerticalSizedBox(30),
 
                         TextButton(
                             onPressed: () {
@@ -177,9 +232,10 @@ class LandingPage extends StatelessWidget {
                               ],
                             )),
 
-                        const SizedBox(
-                            width: 300,
-                            child: Divider(height: 10, color: Colors.white54)),
+                        SizedBox(
+                            width: screeWidth * 0.6,
+                            child: const Divider(
+                                height: 10, color: Colors.white54)),
                       ],
                     ),
                   ),
