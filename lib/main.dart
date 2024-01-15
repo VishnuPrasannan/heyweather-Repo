@@ -9,11 +9,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Weather Mate',
-        home: const SplashScreen(),
-        theme: ThemeData.light(useMaterial3: true)
+        home: SplashScreen(),
+
 
     );
   }
