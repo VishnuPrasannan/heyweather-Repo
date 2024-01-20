@@ -26,22 +26,29 @@ class Addinfo extends StatelessWidget {
       height: 120,
       width: 180,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-         ),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icons,size:iconSize,color: Colors.white,),
+            Icon(
+              icons,
+              size: iconSize,
+              color: Colors.white,
+            ),
             const VerticalSizedBox(8),
+
             Text(
               text,
-              style:  TextStyle(color: primarycolor,fontSize: textSize),
+              style: TextStyle(color: primarycolor, fontSize: textSize),
             ),
             const VerticalSizedBox(6),
+
             Text(
               maintext,
-              style:  TextStyle(fontSize:mainTextSize, color: primarycolor),
+              style: TextStyle(fontSize: mainTextSize, color: primarycolor),
             ),
           ],
         ),
