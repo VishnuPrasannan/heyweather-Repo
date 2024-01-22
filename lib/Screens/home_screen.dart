@@ -4,6 +4,7 @@ import 'package:hey_weather/Widgets/frosted_containers.dart';
 import 'package:hey_weather/Widgets/hourly_forecast.dart';
 import 'package:hey_weather/Widgets/temperatures.dart';
 import 'package:hey_weather/Widgets/weekly_forecast.dart';
+import 'package:intl/intl.dart';
 import '../Utils/weather_utils.dart';
 import '../Widgets/additional_info.dart';
 import '../Widgets/sized_boxes.dart';
@@ -20,14 +21,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: FutureBuilder(
@@ -46,6 +41,8 @@ class _HomepageState extends State<Homepage> {
               final data = snapshot.data!;
               final cityName = data['city']['name'];
               final weatherDataList = data['list'][0];
+              final sunRise = DateTime.fromMillisecondsSinceEpoch(data['city']['sunrise']);
+              final sunSet = DateTime.fromMillisecondsSinceEpoch(data['city']['sunset']);
 
               final currentWeather = weatherDataList['main']['temp'];
               final celsiusTemp = currentWeather - 273.15;
@@ -59,9 +56,8 @@ class _HomepageState extends State<Homepage> {
               final celsiusMax = maxTemp - 273.15;
               final celsiusMaxStr = celsiusMax.toStringAsFixed(0);
 
-              final currentSky = weatherDataList['weather'][0]['main'];
               final currentSkyDescription =
-              weatherDataList['weather'][0]['description'];
+                  weatherDataList['weather'][0]['description'];
 
               final currentHumidity = weatherDataList['main']['humidity'];
 
@@ -78,13 +74,19 @@ class _HomepageState extends State<Homepage> {
 
               return Stack(children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                              'assets/images/broken night clouds.jpg'),
+                              currentDayNightMode == 'n' &&
+                                  (currentSkyDescription =='broken clouds' ||
+                                  currentSkyDescription == 'scattered clouds' ||
+                                  currentSkyDescription == 'few clouds' ||
+                                  currentSkyDescription == 'clear sky' ||
+                                  currentSkyDescription == 'overcast clouds')
+                              ? 'assets/images/night clouds.jpg'
+                              : 'assets/images/clear sky.jpg'),
                           fit: BoxFit.cover)),
                 ),
-
                 CustomScrollView(
                   slivers: [
                     SliverAppBar(
@@ -93,276 +95,284 @@ class _HomepageState extends State<Homepage> {
                       pinned: true,
                       floating: true,
                       expandedHeight: 200,
-
                       flexibleSpace: FlexibleSpaceBar(
                           title: SizedBox(
-                            height: screenHeight * 0.1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text('$cityName'),
-                                const HorizontalSizedBox(50),
-                                InkWell(
-                                    onTap: () {},
-                                    child: const Icon(
-                                      Icons.location_city,
-                                      color: Colors.white,
-                                    ))
-                              ],
-                            ),
-                          )),
+                        height: screenHeight * 0.1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('$cityName',style: TextStyle(fontSize: 30),),
+                            const HorizontalSizedBox(50),
+                            InkWell(
+                                onTap: () {},
+                                child: const Icon(
+                                  Icons.location_city,
+                                  color: Colors.white,
+                                ))
+                          ],
+                        ),
+                      )),
                     ),
-
                     SliverList(
                         delegate: SliverChildListDelegate([
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 50),
-                            child:
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 50),
+                        child:
 
                             // Main DATA
                             Column(
-                              children: [
-                                SizedBox(
-                                    height: screenHeight * 0.3,
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30),
-                                      child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Text('$celsiusTempStr°',
-                                                style: const TextStyle(
-                                                    fontSize: 100,
-                                                    color: Colors.white)),
+                          children: [
+                            SizedBox(
+                                height: screenHeight * 0.3,
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('$celsiusTempStr°',
+                                            style: const TextStyle(
+                                                fontSize: 100,
+                                                color: Colors.white)),
+                                        Image.asset(
+                                          currentDayNightMode == 'n' &&
+                                              (currentSkyDescription ==
+                                                          'broken clouds' ||
+                                                  currentSkyDescription ==
+                                                      'scattered clouds' ||
+                                                  currentSkyDescription ==
+                                                      'few clouds' ||
+                                                  currentSkyDescription ==
+                                                      'clear sky' ||
+                                                  currentSkyDescription ==
+                                                      'light rain')
+                                              ? 'assets/images/main data moon.png'
+                                              : 'assets/images/Forecast cloud image.png',
+                                          width: 70,
+                                          height: 70,
+                                        ),
+                                        Text('$currentSkyDescription',
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white)),
+                                      ]),
+                                )),
 
-                                            Image.asset(
-                                              currentDayNightMode=='d'?
-                                                'assets/images/Sun.png':
-                                                 'assets/images/Moon.png',
-                                                width: 40, height: 40),
-
-                                            Text('$currentSkyDescription',
-                                                style: const TextStyle(
-                                                    fontSize: 30,
-                                                    color: Colors.white)),
-                                          ]),
-                                    )),
-
-
-                                //HOURLY FORECAST
-                                FrostedContainers(
-                                    theWidth: screenWidth * 0.9,
-                                    theHeight: screenHeight * 0.2,
-                                    theChild: Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: ListView.builder(
-                                          itemCount: 10,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            final hourlyForecast=data['list'][index+1];
-                                            final skyDescription=data['list'][index+1]['weather'][0]['main'];
-                                            final time=hourlyForecast['main']['temp'].toString();
-                                            return HourlyForecast(
-                                                time: hourlyForecast['dt'].toString(),
-                                                icon: Icons.cloud,
-                                                temperature: time);
-                                          }),
-                                    )),
-
-                                const VerticalSizedBox(20),
-
-                                // WEEKLY FORECAST
-                                FrostedContainers(
-                                  theHeight: screenHeight * 0.6,
-                                  theWidth: screenWidth * 0.9,
-                                  theChild: ListView.builder(
-                                    physics: const ScrollPhysics(),
-                                      itemCount: 7,
+                            //HOURLY FORECAST
+                            FrostedContainers(
+                                theWidth: screenWidth * 0.9,
+                                theHeight: screenHeight * 0.2,
+                                theChild: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: ListView.builder(
+                                      itemCount: 10,
+                                      scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
-                                        return const WeeklyForecast(day: 'Wednesday',
-                                            icon: Icons.cloud,
-                                            skyDescription: 'partly cloud',
-                                            temp: '33/22');
+
+                                        final hourlyForecast = data['list'][index + 1];
+                                        final hourlySky = data['list'][index + 1]['weather'][0]['main'];
+                                        final temp = double.parse(hourlyForecast['main']['temp'].toString());
+
+                                        final hourlyTemp=(temp -273.15).toString();
+                                        final celsiusHourlyTemp=double.parse(hourlyTemp).toStringAsFixed(0);
+                                        final time=DateTime.parse( hourlyForecast['dt_txt'].toString());
+
+                                        return HourlyForecast(
+                                            time: DateFormat.jm().format(time),
+                                            icon: hourlySky=='Rain'?
+                                            FontAwesomeIcons.cloudRain:
+                                            hourlySky=='Clouds'?
+                                            Icons.cloud:
+                                             Icons.sunny,
+                                            temperature: '$celsiusHourlyTemp°');
                                       }),
+                                )),
+
+                            const VerticalSizedBox(20),
+
+                            // WEEKLY FORECAST
+                            FrostedContainers(
+                              theHeight: screenHeight * 0.6,
+                              theWidth: screenWidth * 0.9,
+                              theChild: ListView.builder(
+                                  physics: const ScrollPhysics(),
+                                  itemCount: 7,
+                                  itemBuilder: (context, index) {
+                                    return const WeeklyForecast(
+                                        day: 'Wednesday',
+                                        icon: Icons.cloud,
+                                        skyDescription: 'partly cloud',
+                                       temp: '33/22');
+                                  }),
+                            ),
+                            const VerticalSizedBox(20),
+
+                            // AIR QUALITY
+                            FrostedContainers(
+                              theWidth: screenWidth * 0.9,
+                              theHeight: screenHeight * 0.1,
+                            ),
+                            const VerticalSizedBox(20),
+
+                            // ADDITIONAL INFORMATION
+                            Row(
+                              children: [
+                                const HorizontalSizedBox(20),
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    children: [
+                                      FrostedContainers(
+                                        theWidth: screenWidth * 0.5,
+                                        theHeight: screenHeight * 0.2,
+                                        theChild: Addinfo(
+                                            icons: Icons.water_drop_outlined,
+                                            text: '$currentHumidity %',
+                                            maintext: 'Humidity',
+                                            iconSize: 25,
+                                            textSize: 20,
+                                            mainTextSize: 20),
+                                      ),
+                                      FrostedContainers(
+                                        theWidth: screenWidth * 0.5,
+                                        theHeight: screenHeight * 0.2,
+                                        theChild: Addinfo(
+                                            icons: FontAwesomeIcons.wind,
+                                            text: '$windSpeed mi',
+                                            maintext: 'Wind Speed',
+                                            iconSize: 25,
+                                            textSize: 20,
+                                            mainTextSize: 20),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const VerticalSizedBox(20),
-
-                                // AIR QUALITY
-                                FrostedContainers(
-                                  theWidth: screenWidth * 0.9,
-                                  theHeight: screenHeight * 0.1,
-                                ),
-                                const VerticalSizedBox(20),
-
-
-                                // ADDITIONAL INFORMATION
-                                Row(
+                                const HorizontalSizedBox(10),
+                                Column(
                                   children: [
-                                    const HorizontalSizedBox(20),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        children: [
-                                          FrostedContainers(
-                                            theWidth: screenWidth * 0.5,
-                                            theHeight: screenHeight * 0.2,
-                                            theChild: Addinfo(
-                                                icons: Icons
-                                                    .water_drop_outlined,
-                                                text: '$currentHumidity %',
-                                                maintext: 'Humidity',
-                                                iconSize: 25,
-                                                textSize: 20,
-                                                mainTextSize: 20),
-                                          ),
-
-                                          FrostedContainers(
-                                            theWidth: screenWidth * 0.5,
-                                            theHeight: screenHeight * 0.2,
-                                            theChild: Addinfo(
-                                                icons: FontAwesomeIcons.wind,
-                                                text: '$windSpeed mi',
-                                                maintext: 'Wind Speed',
-                                                iconSize: 25,
-                                                textSize: 20,
-                                                mainTextSize: 20),
-                                          ),
-
-
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: FrostedContainers(
+                                        theWidth: screenWidth * 0.5,
+                                        theHeight: screenHeight * 0.2,
+                                        theChild: Addinfo(
+                                            icons:
+                                                Icons.remove_red_eye_outlined,
+                                            text: '$visibilityStr km/h',
+                                            maintext: 'Visibility',
+                                            iconSize: 25,
+                                            textSize: 20,
+                                            mainTextSize: 20),
                                       ),
                                     ),
-                                    const HorizontalSizedBox(10),
-
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10),
-                                          child: FrostedContainers(
-                                            theWidth: screenWidth * 0.5,
-                                            theHeight: screenHeight * 0.2,
-                                            theChild: Addinfo(
-                                                icons:
-                                                Icons.remove_red_eye_outlined,
-                                                text: '$visibilityStr km/h',
-                                                maintext: 'Visibility',
-                                                iconSize: 25,
-                                                textSize: 20,
-                                                mainTextSize: 20),
-                                          ),
-                                        ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 10),
-                                          child: FrostedContainers(
-                                            theWidth: screenWidth * 0.5,
-                                            theHeight: screenHeight * 0.2,
-                                            theChild: Addinfo(
-                                                icons: Icons.compress,
-                                                text: '$currentPressure hpa',
-                                                maintext: 'Air Pressure',
-                                                iconSize: 25,
-                                                textSize: 20,
-                                                mainTextSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-
-
-                                //SUNRISE AND SUNSET
-                                FrostedContainers(
-                                  theWidth: screenWidth * 0.9,
-                                  theHeight: screenHeight * 0.3,
-                                  theChild: Padding(
-                                    padding: const EdgeInsets.all(40.0),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            height: 20,
-                                            width: screenWidth * 0.7,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                                gradient: const LinearGradient(
-                                                    begin: Alignment.centerLeft,
-                                                    end: Alignment.centerRight,
-                                                    colors: [
-                                                      Colors.red,
-                                                      Colors.orange,
-                                                      Colors.black,
-                                                      Colors.purple,
-                                                      Colors.blueAccent
-                                                    ])),
-                                            child: Image.asset(
-                                              currentDayNightMode == 'd' ?
-                                              'assets/images/Sun.png'
-                                                  : 'assets/images/Moon.png',
-                                            )
-                                        ),
-
-                                        const VerticalSizedBox(20),
-
-                                        const Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Text('6:00',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                Text('Sun Rise',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                )
-                                              ],
-                                            ),
-
-                                            Column(
-                                              children: [
-                                                Text('6:00',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                Text(
-                                                  'Sun Set',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-
-                                        const VerticalSizedBox(20),
-
-                                        //LOW AND HIGH TEMPERATURES
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 50),
-                                          child: Temperatures(
-                                            data1: 'L: $celsiusMinStr °',
-                                            data2: 'H: $celsiusMaxStr °',
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            width: screenWidth * 0.9,
-                                            child: const Divider(
-                                                color: Colors.white30)),
-                                      ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: FrostedContainers(
+                                        theWidth: screenWidth * 0.5,
+                                        theHeight: screenHeight * 0.2,
+                                        theChild: Addinfo(
+                                            icons: Icons.compress,
+                                            text: '$currentPressure hpa',
+                                            maintext: 'Air Pressure',
+                                            iconSize: 25,
+                                            textSize: 20,
+                                            mainTextSize: 20),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 )
                               ],
                             ),
-                          ),
-                        ]))
+
+                            //SUNRISE AND SUNSET
+                            FrostedContainers(
+                              theWidth: screenWidth * 0.9,
+                              theHeight: screenHeight * 0.3,
+                              theChild: Padding(
+                                padding: const EdgeInsets.all(40.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        height: 20,
+                                        width: screenWidth * 0.7,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            gradient: const LinearGradient(
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight,
+                                                colors: [
+                                                  Colors.red,
+                                                  Colors.orange,
+                                                  Colors.black,
+                                                  Colors.purple,
+                                                  Colors.blueAccent
+                                                ])),
+                                        child: Image.asset(
+                                          currentDayNightMode == 'd'
+                                              ? 'assets/images/Sun.png'
+                                              : 'assets/images/Moon.png',
+                                        )),
+
+                                    const VerticalSizedBox(20),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text('$sunRise',
+                                                style: const TextStyle(
+                                                    color: Colors.white)),
+                                            const Text(
+                                              'Sun Rise',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text('$sunSet',
+                                                style: const TextStyle(
+                                                    color: Colors.white)),
+                                            const Text(
+                                              'Sun Set',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+
+                                    const VerticalSizedBox(20),
+
+                                    //LOW AND HIGH TEMPERATURES
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 50),
+                                      child: Temperatures(
+                                        data1: 'L: $celsiusMinStr °',
+                                        data2: 'H: $celsiusMaxStr °',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: screenWidth * 0.9,
+                                        child: const Divider(
+                                            color: Colors.white30)),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ]))
                   ],
                 ),
               ]);

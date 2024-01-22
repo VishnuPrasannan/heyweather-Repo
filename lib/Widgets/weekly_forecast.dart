@@ -33,6 +33,7 @@ class WeeklyForecast extends StatelessWidget {
                   icon,
                   size: 30,
                 ),
+                HorizontalSizedBox(10),
                 Text(skyDescription, style: const TextStyle(fontSize: 20))
               ],
             ),

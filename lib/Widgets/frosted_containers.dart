@@ -26,13 +26,13 @@ class FrostedContainers extends StatelessWidget {
                 decoration:
                 BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: Colors.white.withOpacity(0.13)),
+                    border: Border.all(color: Colors.white.withOpacity(0.16)),
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.black54.withOpacity(0.40),
-                          Colors.black54.withOpacity(0.40)
+                          Colors.black54.withOpacity(0.60),
+                          Colors.black54.withOpacity(0.60)
                         ])),
                 child: theChild,
               )

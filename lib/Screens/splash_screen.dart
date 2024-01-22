@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset('assets/images/splash.jpg', width: screenWidth * 0.3),
             const VerticalSizedBox(30),
-           Text('The Ultimate Weather Forecast Companion\n For Your  Daily GO')
+           const Text('The Ultimate Weather Forecast Companion\n For Your  Daily GO')
           ],
         ),
       ),
