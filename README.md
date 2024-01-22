@@ -4,13 +4,10 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This Flutter application provides a weather forecasting feature, allowing users to check the current weather conditions and forecast for a specific location.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Current Weather:** View the current weather conditions for a selected location.
+- **Forecast:** Get a hourly and weekly weather forecast for the chosen location.
+- **User-friendly Interface:** The app is designed with a clean and intuitive user interface for a seamless experience.
