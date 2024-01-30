@@ -9,5 +9,5 @@ This Flutter application provides a weather forecasting feature, allowing users 
 ## Features
 
 - **Current Weather:** View the current weather conditions for a selected location.
-- **Forecast:** Get a hourly and weekly weather forecast for the chosen location.
+- **Forecast:** Get a hourly forecast and you can also check the timings of sunrise and sunset for the chosen location.
 - **User-friendly Interface:** The app is designed with a clean and intuitive user interface for a seamless experience.
